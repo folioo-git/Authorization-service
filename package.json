@@ -1,0 +1,19 @@
+{
+  "name": "folioo-authorization-service",
+  "version": "1.0.0",
+  "description": "This is folioo's authorization service which will just handle all the authorization and authentication logic for other service.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/folioo-git/Authorization-service.git"
+  },
+  "author": "miteshp2110",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/folioo-git/Authorization-service/issues"
+  },
+  "homepage": "https://github.com/folioo-git/Authorization-service#readme"
+}
