@@ -4,7 +4,9 @@
   "description": "This is folioo's authorization service which will just handle all the authorization and authentication logic for other service.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node src/index.js",
+    "serve": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/folioo-git/Authorization-service/issues"
   },
-  "homepage": "https://github.com/folioo-git/Authorization-service#readme"
+  "homepage": "https://github.com/folioo-git/Authorization-service#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
