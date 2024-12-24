@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const basicAuthRoutes = require("./routes/basicAuthRoutes")
 const jsonBodyValidator = require("./middlewares/jsonBodyValidator")
+const pool = require('./config/db')
 
 //MIDDLWARES
 

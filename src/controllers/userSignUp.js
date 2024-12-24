@@ -1,6 +1,8 @@
 // This controller all the User sign up related logic for basic Authentication.
 
-
+const dataEncrypter = require("../utils/dataEncrypter")
+const pool = require('../config/db')
+const isExistingUser = require('../utils/existingUser')
 const userSignUp = (async(req,res)=>{
 
     try{
@@ -13,7 +15,12 @@ const userSignUp = (async(req,res)=>{
 
                     //Both email and Password are present
 
-                    console.log(`email: ${email}, pass: ${password}`)
+                    console.log(`email:  ${email}, pass: ${await dataEncrypter(password)}`)
+
+                    const r = await isExistingUser(email)
+                    if(r === undefined){
+                        throw Error
+                    }
                     return res.status(200).json({"Message":"Working"})
                     
                 }
