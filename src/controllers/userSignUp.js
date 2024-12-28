@@ -1,6 +1,6 @@
 // This controller all the User sign up related logic for basic Authentication.
 
-const dataEncrypter = require("../utils/dataEncrypter")
+const {dataEncrypter} = require("../utils/dataEncrypter")
 const isExistingUser = require('../utils/existingUser')
 const getOtp = require('../utils/otpGenerator')
 const redis = require('../config/redisClient')
@@ -17,7 +17,7 @@ const userSignUp = (async(req,res)=>{
 
                     //Both email and Password are present
 
-                    const existing = await isExistingUser(email)
+                    const existing = await isExistingUser(email,true)
                     if(existing === undefined){
                         throw Error
                     }
@@ -32,7 +32,7 @@ const userSignUp = (async(req,res)=>{
                         var data = {
                             email:email,
                             password:hashedPassword,
-                            otp:otp,
+                            otp: await dataEncrypter(otp),
                             attemptsRemaining:3
                         }
                         await redis.set(`auth:user:${email}`,JSON.stringify(data),'EX',300)
@@ -46,11 +46,12 @@ const userSignUp = (async(req,res)=>{
                             if(existingUserCache.attemptsRemaining > 0){
 
                                 var otp = await getOtp()
+                        
 
                                 var data = {
                                     email:email,
                                     password:hashedPassword,
-                                    otp:otp,
+                                    otp:await dataEncrypter(otp),
                                     attemptsRemaining:existingUserCache.attemptsRemaining-1
                                 }
                                 await redis.set(`auth:user:${email}`,JSON.stringify(data),'EX',300)

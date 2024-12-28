@@ -17,7 +17,7 @@ app.use("/auth",basicAuthRoutes)
 
 //Test Route
 app.get("/test",((req,res)=>{
-    res.status(200).json({"Message":"msg"})
+    res.status(200).json({"Message":"Yes service is up and working."})
 }))
 
 module.exports = app

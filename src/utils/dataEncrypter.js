@@ -5,7 +5,7 @@ const {SALT_ROUND} = require('../config/secrets')
 
 async function dataEncrypter(data){
     try{
-        const hashData = await bcrypt.hash(data,parseInt(SALT_ROUND))
+        const hashData = await bcrypt.hash(data.toString(),parseInt(SALT_ROUND))
         return hashData
     }
     catch(err){
@@ -15,4 +15,15 @@ async function dataEncrypter(data){
 
 }
 
-module.exports = dataEncrypter
+async function checker(hashedData,data) {
+    try{
+        var result = await bcrypt.compare(data,hashedData)
+        return result
+    }
+    catch(err){
+        console.log("Some error occured in Hashed Checking")
+        console.log(err)
+    }
+}
+
+module.exports = {dataEncrypter,checker}

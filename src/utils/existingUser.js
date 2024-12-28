@@ -3,12 +3,14 @@
 const pool = require('../config/db')
 const redis = require('../config/redisClient')
 
-async function isExistingUser(email){
+async function isExistingUser(email,cacheCheck){
     try{
         
-        var cache = JSON.parse(await redis.get(`auth:user:${email}`))
-        if(cache){
-            return 1
+        if(cacheCheck){
+            var cache = JSON.parse(await redis.get(`auth:user:${email}`))
+            if(cache){
+                return 1
+            }
         }
         const [result] = await pool.promise().query(`select count(email) as count from user where email = ?`,[email])
         return result[0].count > 0;
