@@ -1,8 +1,10 @@
 // This controller all the User sign up related logic for basic Authentication.
 
 const dataEncrypter = require("../utils/dataEncrypter")
-const pool = require('../config/db')
 const isExistingUser = require('../utils/existingUser')
+const getOtp = require('../utils/otpGenerator')
+const redis = require('../config/redisClient')
+
 const userSignUp = (async(req,res)=>{
 
     try{
@@ -20,21 +22,47 @@ const userSignUp = (async(req,res)=>{
                         throw Error
                     }
 
+                    
                     var hashedPassword = await dataEncrypter(password)
-
+                    
                     if(!existing){
-                        // pool.query("insert into user (email,password) values (?,?)",[email,hashedPassword],(err,result)=>{
-                        //     if(err){
-                        //         console.log(err)
-                        //         throw Error
-                        //     }
-                            
-                        //     return res.status(201).json({"Message":"Data Inserted"})
-    
-                        // })
+
+                        var otp = await getOtp()
+
+                        var data = {
+                            email:email,
+                            password:hashedPassword,
+                            otp:otp,
+                            attemptsRemaining:3
+                        }
+                        await redis.set(`auth:user:${email}`,JSON.stringify(data),'EX',300)
+                        return res.status(201).json({"Message":`OTP has been sent to email ${email}`})
+
                     }
                     else{
-                        return res.status(400).json({"Message":"Email Already Exists."})
+                        const existingUserCache = JSON.parse(await redis.get(`auth:user:${email}`))
+                
+                        if(existingUserCache){
+                            if(existingUserCache.attemptsRemaining > 0){
+
+                                var otp = await getOtp()
+
+                                var data = {
+                                    email:email,
+                                    password:hashedPassword,
+                                    otp:otp,
+                                    attemptsRemaining:existingUserCache.attemptsRemaining-1
+                                }
+                                await redis.set(`auth:user:${email}`,JSON.stringify(data),'EX',300)
+                    
+                                return res.status(201).json({"Message":`OTP has been sent to email ${email}`})
+                            }
+                            else{
+                                return res.status(429).json({"Message":"Too many request. Try again after 5 minutes."})
+                            }
+                        } 
+                        return res.status(409).json({"Message":"Email Already Exists."})
+
                     }
 
                     
@@ -53,6 +81,7 @@ const userSignUp = (async(req,res)=>{
         }
     }
     catch(err){
+        console.log(err)
         return res.status(500).json({"Message":"Some Error Occured in Server"})
     }
 

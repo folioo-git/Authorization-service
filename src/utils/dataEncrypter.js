@@ -10,6 +10,7 @@ async function dataEncrypter(data){
     }
     catch(err){
         console.log("Error While Encrypting")
+        console.log(err)
     }
 
 }
