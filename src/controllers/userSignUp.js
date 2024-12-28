@@ -15,13 +15,28 @@ const userSignUp = (async(req,res)=>{
 
                     //Both email and Password are present
 
-                    console.log(`email:  ${email}, pass: ${await dataEncrypter(password)}`)
-
-                    const r = await isExistingUser(email)
-                    if(r === undefined){
+                    const existing = await isExistingUser(email)
+                    if(existing === undefined){
                         throw Error
                     }
-                    return res.status(200).json({"Message":"Working"})
+
+                    var hashedPassword = await dataEncrypter(password)
+
+                    if(!existing){
+                        // pool.query("insert into user (email,password) values (?,?)",[email,hashedPassword],(err,result)=>{
+                        //     if(err){
+                        //         console.log(err)
+                        //         throw Error
+                        //     }
+                            
+                        //     return res.status(201).json({"Message":"Data Inserted"})
+    
+                        // })
+                    }
+                    else{
+                        return res.status(400).json({"Message":"Email Already Exists."})
+                    }
+
                     
                 }
                 else{
