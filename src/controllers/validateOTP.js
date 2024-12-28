@@ -4,6 +4,7 @@
 const pool = require('../config/db')
 const redis = require('../config/redisClient')
 const {checker} = require("../utils/dataEncrypter")
+const {getToken,getRefreshToken} = require('../utils/jwtClient')
 
 const validateOTP = (async (req,res)=>{
 
@@ -24,7 +25,7 @@ const validateOTP = (async (req,res)=>{
 
                     await redis.del(`auth:user:${email}`)
 
-                    return res.status(201).json({"Message":"Created User"})
+                    return res.status(201).json({"Message":"Created User","token":getToken(cache.email),"refreshToken":getRefreshToken(cache.email)})
 
                 
                 }

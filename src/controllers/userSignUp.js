@@ -28,7 +28,7 @@ const userSignUp = (async(req,res)=>{
                     if(!existing){
 
                         var otp = await getOtp()
-
+                        console.log(otp)
                         var data = {
                             email:email,
                             password:hashedPassword,
