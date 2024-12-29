@@ -42,7 +42,7 @@ const forgotPasswordOtp = (async(req,res)=>{
             let data = {
                 email:email,
                 otp:await dataEncrypter(otp),
-                attemptsRemaining:3
+                attemptsRemaining:4
             }
             await redis.set(`auth:forgot:user:${email}`,JSON.stringify(data),'EX',300)
             return res.status(200).json({"Message":`Otp sent to ${email}`})
@@ -51,6 +51,7 @@ const forgotPasswordOtp = (async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        return res.status(500).json({"Message":"Some error Occured"})
     }
 
 })

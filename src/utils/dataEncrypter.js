@@ -23,6 +23,7 @@ async function checker(hashedData,data) {
     catch(err){
         console.log("Some error occured in Hashed Checking")
         console.log(err)
+        return res.status(500).json({"Message":"Some error Occured"})
     }
 }
 

@@ -5,11 +5,12 @@ const userSignUp = require('../controllers/userSignUp')
 const validateOTP = require('../controllers/validateOTP')
 const userLogin = require("../controllers/userLogin")
 const forgotPasswordOtp = require('../controllers/forgotPasswordOtp')
+const updatePassword = require('../controllers/updatePassword')
 
 router.post("/api/signup",userSignUp)
 router.post("/api/validateOtp",validateOTP)
 router.post("/api/login",userLogin)
-router.post("/api/forgotPassword",forgotPasswordOtp)
+router.route("/api/forgotPassword").post(forgotPasswordOtp).put(updatePassword)
 
 
 
