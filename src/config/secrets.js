@@ -14,5 +14,6 @@ module.exports = {
     REDIS_PORT : process.env.REDIS_PORT,
     REDIS_USER : process.env.REDIS_USER,
     REDIS_PASSWORD : process.env.REDIS_PASSWORD,
-    JWT_SECRET : process.env.JWT_SECRET
+    JWT_SECRET : process.env.JWT_SECRET,
+    CRYPTO_KEY: process.env.CRYPTO_KEY
 }

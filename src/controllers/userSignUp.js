@@ -4,6 +4,7 @@ const {dataEncrypter} = require("../utils/dataEncrypter")
 const isExistingUser = require('../utils/existingUser')
 const getOtp = require('../utils/otpGenerator')
 const redis = require('../config/redisClient')
+const {encrypt,decrypt} = require('../utils/cryptoClient')
 
 const userSignUp = (async(req,res)=>{
 
@@ -29,6 +30,9 @@ const userSignUp = (async(req,res)=>{
 
                         var otp = await getOtp()
                         console.log(otp)
+                        // let test = encrypt(otp)
+                        // console.log(test)
+                        // console.log("decrypted: ",decrypt(test.encryptedText,test.iv))
                         var data = {
                             email:email,
                             password:hashedPassword,
