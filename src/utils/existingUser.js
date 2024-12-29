@@ -12,7 +12,7 @@ async function isExistingUser(email,cacheCheck){
                 return 1
             }
         }
-        const [result] = await pool.promise().query(`select count(email) as count from user where email = ? and auth_provider = ?`,[email,"basic"])
+        const [result] = await pool.promise().query(`select count(email) as count from user where email = ?`,[email])
         return result[0].count > 0;
 
 

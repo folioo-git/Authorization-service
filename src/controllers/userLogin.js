@@ -42,7 +42,11 @@ const userLogin = (async (req,res)=>{
             await redis.set(`auth:login:user:${email}`,JSON.stringify(data),'EX',300)
         }
 
-        const [result] = await pool.promise().query('select password from user where email = ?',[email])
+        const [result] = await pool.promise().query('select auth_provider,password from user where email = ?',[email])
+
+        if(result[0].auth_provider !=='basic'){
+            return res.status(401).json({"Message":`Continue with ${result[0].auth_provider}`,"redirect":"google.com"})
+        }
 
         if(await checker(result[0].password,password)){
             await redis.del(`auth:login:user:${email}`)
