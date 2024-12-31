@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/folioo-git/Authorization-service#readme",
   "dependencies": {
+    "amqplib": "^0.10.5",
     "bcrypt": "^5.1.1",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",

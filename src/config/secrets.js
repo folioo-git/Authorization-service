@@ -15,5 +15,9 @@ module.exports = {
     REDIS_USER : process.env.REDIS_USER,
     REDIS_PASSWORD : process.env.REDIS_PASSWORD,
     JWT_SECRET : process.env.JWT_SECRET,
-    CRYPTO_KEY: process.env.CRYPTO_KEY
+    CRYPTO_KEY: process.env.CRYPTO_KEY,
+    RABBIT_MQ_HOST : process.env.RABBIT_MQ_HOST ,
+    RABBIT_MQ_PORT : process.env.RABBIT_MQ_PORT,
+    RABBIT_MQ_USER : process.env.RABBIT_MQ_USER ,
+    RABBIT_MQ_PASSWORD : process.env.RABBIT_MQ_PASSWORD
 }
