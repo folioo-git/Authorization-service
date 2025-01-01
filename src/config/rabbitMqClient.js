@@ -10,7 +10,7 @@ async function getQueueChannel(){
         const connection = await amqplib.connect(`amqp://${RABBIT_MQ_USER}:${RABBIT_MQ_PASSWORD}@${RABBIT_MQ_HOST}:${RABBIT_MQ_PORT}`)
         
         const channel = await connection.createChannel()
-        
+        console.log("Rabbit Mq connected")
         return channel
     }
     catch(err){
