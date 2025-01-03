@@ -4,6 +4,8 @@ const getOtp = require('../utils/otpGenerator')
 const {dataEncrypter} = require('../utils/dataEncrypter')
 const existingUser = require("../utils/existingUser")
 const redis = require('../config/redisClient')
+const {encrypt} = require('../utils/cryptoClient')
+const {publishToNotification} = require('../utils/rabbitManager')
 
 const forgotPasswordOtp = (async(req,res)=>{
 
@@ -24,6 +26,7 @@ const forgotPasswordOtp = (async(req,res)=>{
             if(cache.attemptsRemaining > 0){
                 let otp = await getOtp()
                 console.log("attempt otp: ",otp)
+                await publishToNotification({email:email,otp:encrypt(otp),forgotPassword:true})
                 let data = {
                     email:email,
                     otp:await dataEncrypter(otp),
@@ -39,6 +42,7 @@ const forgotPasswordOtp = (async(req,res)=>{
         else{
             let otp = await getOtp()
             console.log("first otp: ",otp)
+            await publishToNotification({email:email,otp:encrypt(otp),forgotPassword:true})
             let data = {
                 email:email,
                 otp:await dataEncrypter(otp),

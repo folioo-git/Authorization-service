@@ -4,7 +4,8 @@ const {dataEncrypter} = require("../utils/dataEncrypter")
 const isExistingUser = require('../utils/existingUser')
 const getOtp = require('../utils/otpGenerator')
 const redis = require('../config/redisClient')
-const {encrypt,decrypt} = require('../utils/cryptoClient')
+const {encrypt} = require('../utils/cryptoClient')
+const {publishToNotification} = require('../utils/rabbitManager')
 
 const userSignUp = (async(req,res)=>{
 
@@ -33,6 +34,8 @@ const userSignUp = (async(req,res)=>{
                         // let test = encrypt(otp)
                         // console.log(test)
                         // console.log("decrypted: ",decrypt(test.encryptedText,test.iv))
+
+                        await publishToNotification({email:email,otp:encrypt(otp),signUp:true})  //Publish message to notification Exchange
                         var data = {
                             email:email,
                             password:hashedPassword,
@@ -50,6 +53,8 @@ const userSignUp = (async(req,res)=>{
                             if(existingUserCache.attemptsRemaining > 0){
 
                                 var otp = await getOtp()
+
+                                await publishToNotification({email:email,otp:encrypt(otp),signUp:true})
                         
 
                                 var data = {

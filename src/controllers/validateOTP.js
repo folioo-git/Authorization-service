@@ -5,6 +5,7 @@ const pool = require('../config/db')
 const redis = require('../config/redisClient')
 const {checker} = require("../utils/dataEncrypter")
 const {getToken,getRefreshToken} = require('../utils/jwtClient')
+const {publishToUser} = require("../utils/rabbitManager")
 
 const validateOTP = (async (req,res)=>{
 
@@ -22,6 +23,8 @@ const validateOTP = (async (req,res)=>{
                 if(await checker(cache.otp , otp.toString())){
                     
                     await pool.promise().query("insert into user (email,password) values (?,?)",[cache.email,cache.password])
+
+                    await publishToUser({email:email,newUser:true})
 
                     await redis.del(`auth:user:${email}`)
 
