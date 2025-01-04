@@ -4,6 +4,7 @@ const {initExchanges_Queues,publishToNotification,publishToUser} = require('./ut
 const basicAuthRoutes = require("./routes/basicAuthRoutes")
 const jsonBodyValidator = require("./middlewares/jsonBodyValidator")
 const redis = require('./config/redisClient')
+const oAuthRoutes = require("./routes/oAuthRoutes")
 
 //MIDDLWARES
 
@@ -13,9 +14,11 @@ redis.set("greetings","Hello")
 redis.expire("greetings",30)
 initExchanges_Queues()
 
+
 //ROUTES
 
 app.use("/auth",basicAuthRoutes)
+app.use("/oauth",oAuthRoutes)
 
 //Test Route
 app.get("/test",((req,res)=>{

@@ -19,5 +19,9 @@ module.exports = {
     RABBIT_MQ_HOST : process.env.RABBIT_MQ_HOST ,
     RABBIT_MQ_PORT : process.env.RABBIT_MQ_PORT,
     RABBIT_MQ_USER : process.env.RABBIT_MQ_USER ,
-    RABBIT_MQ_PASSWORD : process.env.RABBIT_MQ_PASSWORD
+    RABBIT_MQ_PASSWORD : process.env.RABBIT_MQ_PASSWORD,
+    GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID,
+    GITHUB_SECRET : process.env.GITHUB_SECRET,
+    GITHUB_CALLBACKURL : process.env.GITHUB_CALLBACKURL ,
+    CLIENT_URL : process.env.CLIENT_URL
 }
