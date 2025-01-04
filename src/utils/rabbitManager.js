@@ -16,8 +16,8 @@ async function initExchanges_Queues() {
 
             //Declaring Queues
 
-            const user_portfolio = await channel.assertQueue('user_portfolio',{durable:true})
-            const notification_otp = await channel.assertQueue('notification_otp',{durable:true})
+            const user_portfolio = await channel.assertQueue('user_portfolio',{durable:true,autoDelete:false})
+            const notification_otp = await channel.assertQueue('notification_otp',{durable:true,autoDelete:false})
             
             //Binding Queues
 
@@ -40,7 +40,7 @@ async function publishToNotification(data){
             console.log("Channel not initilized")
             throw Error
         }
-        await channel.publish(notificationExchange,'',Buffer.from(JSON.stringify(data)))
+        await channel.publish(notificationExchange,'',Buffer.from(JSON.stringify(data)),{persistent:true})
         return true
     }
     catch(err){
@@ -57,7 +57,7 @@ async function publishToUser(data){
             throw Error
         }
 
-        await channel.publish(userExchange,'',Buffer.from(JSON.stringify(data)))
+        await channel.publish(userExchange,'',Buffer.from(JSON.stringify(data)),{persistent:true})
         return true
     }
     catch(err){

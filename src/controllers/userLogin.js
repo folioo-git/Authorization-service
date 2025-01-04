@@ -45,7 +45,7 @@ const userLogin = (async (req,res)=>{
         const [result] = await pool.promise().query('select auth_provider,password from user where email = ?',[email])
 
         if(result[0].auth_provider !=='basic'){
-            return res.status(401).json({"Message":`Continue with ${result[0].auth_provider}`,"redirect":"google.com"})
+            return res.status(401).json({"Message":`Continue with ${result[0].auth_provider}`})
         }
 
         if(await checker(result[0].password,password)){

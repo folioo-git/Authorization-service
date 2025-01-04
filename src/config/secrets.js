@@ -23,5 +23,8 @@ module.exports = {
     GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID,
     GITHUB_SECRET : process.env.GITHUB_SECRET,
     GITHUB_CALLBACKURL : process.env.GITHUB_CALLBACKURL ,
+    GOOGLE_CLIENT_ID : process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_SECRET : process.env.GOOGLE_SECRET,
+    GOOGLE_CALLBACKURL : process.env.GOOGLE_CALLBACKURL,
     CLIENT_URL : process.env.CLIENT_URL
 }

@@ -5,6 +5,7 @@ const passportGithub = require('passport')
 const GitHubStrategy = require('passport-github2').Strategy
 const {GITHUB_CLIENT_ID,GITHUB_SECRET,GITHUB_CALLBACKURL,CLIENT_URL} = require("../config/secrets")
 const pool = require('../config/db')
+const {publishToUser} = require('../utils/rabbitManager')
 
 passportGithub.use(new GitHubStrategy(
     {
@@ -19,6 +20,7 @@ passportGithub.use(new GitHubStrategy(
         try{
             if(! await isExistingUser(email,false)){
                 await pool.promise().query('insert into user (email,auth_provider) values(?,?)',[email,'github'])
+                await publishToUser({email:email,newUser:true})
             }
             const resp = {token:getToken(email),refreshToken:getRefreshToken(email)}
             return done(null,resp)
